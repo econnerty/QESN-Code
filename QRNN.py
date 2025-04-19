@@ -1,6 +1,6 @@
 # QRNN Implementation
 # Authors: Erik Connerty and Ethan Evans
-# Date: January 20th, 2024
+# Date: January 20th, 2025
 
 import numpy as np
 import qiskit as qs
