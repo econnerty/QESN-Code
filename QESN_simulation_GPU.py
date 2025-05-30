@@ -35,13 +35,13 @@ seed = 1000
 np.random.seed(seed)  # For reproducibility
 
 #params
-n_shots = 50000 #should be multiple of 1000
+n_shots = 60000 #should be multiple of 1000
 
 #number of memory and readout qubits
-n_mem_qubits = 2
-n_read_qubits = 2
+n_mem_qubits = 6
+n_read_qubits = 6
 context_length = 3
-repeat_blocks = 1
+repeat_blocks = 3
 n_qubits = n_mem_qubits + n_read_qubits
 
 
@@ -67,20 +67,20 @@ def quantum_reservoir(input_data, W_in, W_bias,W_hidden, W_entangle,n_mem_qubits
                 phi2, theta2, omega2 = encoding2
                 bias1, bias2, bias3 = W_bias[k]
                 bias21, bias22, bias23 = W_bias[k+1]
-                qc.u(phi+ bias1, theta+ bias2, omega + bias3, k)
-                qc.u(phi2 + bias21, theta2 + bias22, omega2 + bias23, k+1)
-                #Rot(qc, phi=phi+ bias1, theta=theta+ bias2, omega=omega + bias3, wires=k)
-                #Rot(qc, phi=phi2 + bias21, theta=theta2 + bias22, omega=omega2 + bias23, wires=k+1)
+                #qc.u(phi+ bias1, theta+ bias2, omega + bias3, k)
+                #qc.u(phi2 + bias21, theta2 + bias22, omega2 + bias23, k+1)
+                Rot(qc, phi=phi+ bias1, theta=theta+ bias2, omega=omega + bias3, wires=k)
+                Rot(qc, phi=phi2 + bias21, theta=theta2 + bias22, omega=omega2 + bias23, wires=k+1)
                 qc.cx(k,k+1)
-                qc.u(phi+ bias1, theta+ bias2, omega + bias3, k)
-                qc.u(phi2 + bias21, theta2 + bias22, omega2 + bias23, k+1)
-                #Rot(qc, phi=phi+ bias1, theta=theta+ bias2, omega=omega + bias3, wires=k)
-                #Rot(qc, phi=phi2 + bias21, theta=theta2 + bias22, omega=omega2 + bias23, wires=k+1)
+                #qc.u(phi+ bias1, theta+ bias2, omega + bias3, k)
+                #qc.u(phi2 + bias21, theta2 + bias22, omega2 + bias23, k+1)
+                Rot(qc, phi=phi+ bias1, theta=theta+ bias2, omega=omega + bias3, wires=k)
+                Rot(qc, phi=phi2 + bias21, theta=theta2 + bias22, omega=omega2 + bias23, wires=k+1)
                 qc.cry(W_hidden[k//2,0], k, k+1)
-                qc.u(phi+ bias1, theta+ bias2, omega + bias3, k)
-                qc.u(phi2 + bias21, theta2 + bias22, omega2 + bias23, k+1)
-                #Rot(qc, phi=phi+ bias1, theta=theta+ bias2, omega=omega + bias3, wires=k)
-                #Rot(qc, phi=phi2 + bias21, theta=theta2 + bias22, omega=omega2 + bias23, wires=k+1)
+                #qc.u(phi+ bias1, theta+ bias2, omega + bias3, k)
+                #qc.u(phi2 + bias21, theta2 + bias22, omega2 + bias23, k+1)
+                Rot(qc, phi=phi+ bias1, theta=theta+ bias2, omega=omega + bias3, wires=k)
+                Rot(qc, phi=phi2 + bias21, theta=theta2 + bias22, omega=omega2 + bias23, wires=k+1)
                 qc.crx(W_hidden[k//2,1], k, k+1)
             for k in range(0,n_qubits,2):
                 qc.crz(W_entangle[k//2],k,(k+2)%n_qubits)
@@ -106,7 +106,7 @@ def encode_input(W_in, input_value):
 
 def Rot(qc, phi=0, theta=0, omega=0, wires=0):
     qc.rz(phi, wires)
-    qc.ry(theta, wires)
+    qc.rx(theta, wires)
     qc.rz(omega, wires)
 
 def process_time_step(t, counts_column, num_outcomes):
