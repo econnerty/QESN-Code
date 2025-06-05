@@ -1,6 +1,6 @@
 # QRNN Implementation
 # Authors: Erik Connerty and Ethan Evans
-# Date: January 20th, 2025
+# Date: July 8th, 2024
 
 import numpy as np
 import qiskit as qs
@@ -29,8 +29,15 @@ def QRNN(input_data,n_qubits,context_length,repeat_blocks,ent_sparsity,mem_spars
     #Patch for fractional gates
     #W_hidden = np.abs(W_hidden)
     #W_entangle = np.abs(W_entangle)
+    print('Input weights: ')
+    print(W_in)
+    print('Bias weights: ')
+    print(W_bias)
+    print("Hidden weights: ")
     print(W_hidden)
+    print("Entangle weights")
     print(W_entangle)
+    print('crx dynamic')
     # W_in = np.random.normal(loc=np.pi/(8*context_length*repeat_blocks),scale=np.pi/(24*context_length*repeat_blocks), size=(n_qubits,context_length,3))
     # W_bias = np.random.normal(loc=np.pi/(12*context_length*repeat_blocks), scale=np.pi/(36*context_length*repeat_blocks), size=(n_qubits,3))
     # W_hidden = np.random.normal(loc=0, scale=np.pi/6, size=(n_qubits//2,2))
@@ -91,7 +98,7 @@ def QRNN(input_data,n_qubits,context_length,repeat_blocks,ent_sparsity,mem_spars
         # perform measurement and reset
 
         qc.measure(ind, temp)
-        qc.delay(6000) #This delay currently corresponds to 24 microseconds on IBM Marrakesh QPU.
+        #qc.delay(6000) #add delay 64000dt #16000 is 64 microseconds on marrakesh #PUTTING DELAY AFTER RESET IS A BAD IDEA!
         qc.reset(ind)
         qc.barrier()
         
@@ -110,14 +117,11 @@ def Rot(qc, phi=0, theta=0, omega=0, wires=0):
     qc.rz(omega, wires)
 
 
-def get_lorenz_data(startup=100, n_pts=1000):
+def get_lorenz_data(startup=100, n_pts=1000,test_pts=500):
 
     #Load in lorenz data
     train_data_lorenz = np.load('./data/train_data_lorenz.npy')
-    test_data_lorenz = np.load('./data/test_data_lorenz.npy')
-
-    #I am trying to combine the data now
-    train_data_lorenz = np.concatenate((train_data_lorenz, test_data_lorenz), axis=0)
+    #test_data_lorenz = np.load('./data/test_data_lorenz.npy')
 
     # Split data into train and test sets
     train_data = train_data_lorenz[startup:startup+n_pts]
