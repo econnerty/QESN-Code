@@ -75,7 +75,7 @@ if __name__ == '__main__':
 	
 		#Load in lorenz data
 		#Get data
-		start = 0
+		start = 100
 		n_pts = 6900
 		test_pts = 3000
 		train_input_signal, test_input_signal, train_data, test_data = QRNN.get_lorenz_data(startup=start,n_pts=n_pts,test_pts=test_pts)
