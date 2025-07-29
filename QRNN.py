@@ -120,7 +120,7 @@ def Rot(qc, phi=0, theta=0, omega=0, wires=0):
 def get_lorenz_data(startup=100, n_pts=1000,test_pts=500):
 
     #Load in lorenz data
-    train_data_lorenz = np.load('./data/train_data_lorenz.npy')
+    train_data_lorenz = np.load('./data/train_data_lorenz_full.npy')
     #test_data_lorenz = np.load('./data/test_data_lorenz.npy')
 
     # Split data into train and test sets
