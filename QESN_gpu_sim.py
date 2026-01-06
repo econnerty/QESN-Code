@@ -117,7 +117,7 @@ if __name__ == '__main__':
 		result = [sampler.run([t_qc], shots=n_shots).result()[0].data]
 		expectation = QRNN.get_probability_matrix(result, register_names, n_qubits//2)
 	
-		np.save(f'./results_server/expectation_values/{signal_type}_prob_values_{n_shots}_shots_{n_qubits}_qubits_rep{repeat_blocks}_{date}_{seed}_{start}_{n_pts}_reptest_sparse_norotationread_cnoto', expectation)
+		np.save(f'./results_server/expectation_values/prob_values_{n_shots}_shots_{n_qubits}_qubits_rep{repeat_blocks}_{date}_{seed}_{start}_{n_pts}_reptest_sparse_norotationread_cnoto', expectation)
 
 
 		###Run it again on the test dataset and save those results to reproduce the paper
