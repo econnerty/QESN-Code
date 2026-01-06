@@ -63,7 +63,7 @@ n_qubits = n_mem_qubits + n_read_qubits
 
 if __name__ == '__main__':
 	#Create loop for the different datasets
-	f = open(f'./logs/{signal_type}_{n_qubits}_{n_shots}_qrnn_{date}_rep{repeat_blocks}_FC.txt','w')
+	f = open(f'./logs/{n_qubits}_{n_shots}_qrnn_{date}_rep{repeat_blocks}_FC.txt','w')
 	for i in range (1):
 		f.write('\nSeed: ')
 		f.write(str(seed))
